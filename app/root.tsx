@@ -26,10 +26,8 @@ export default function App() {
       </head>
       <body className='bg-slate-800 text-white'>
         <div className='ml-10 w-96 h-screen bg-slate-700 '>
-          <div className='bg-slate-900 py-2'>
-            <h1 className='text-3xl font-semibold text-orange-500 text-center'>
-              BP Tracker
-            </h1>
+          <div className='bg-slate-900 py-2 drop-shadow-lg saturate-150'>
+            <h1 className='text-2xl font-semibold text-orange-500 ml-2 '>BP</h1>
           </div>
           <Outlet />
         </div>

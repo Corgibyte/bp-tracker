@@ -17,7 +17,7 @@ const onChangeValidation = (stringValue: string) => {
 };
 
 interface Props {
-  onSubmit?: (newMeasurement: Measurement) => void;
+  onSubmit: (newMeasurement: Measurement) => void;
 }
 
 interface Values {
@@ -37,7 +37,13 @@ const MeasurementInput: React.FC<Props> = (props: Props) => {
   });
 
   return (
-    <>
+    <div
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' && validateMeasurement(values)) {
+          onSubmit(parseMeasurementInput(values));
+        }
+      }}
+    >
       <div className='grid grid-cols-3 justify-items-center py-4'>
         <input
           type='text'
@@ -51,6 +57,7 @@ const MeasurementInput: React.FC<Props> = (props: Props) => {
           }}
           className={inputStyles}
           required
+          autoFocus
         />
         <input
           type='text'
@@ -82,10 +89,9 @@ const MeasurementInput: React.FC<Props> = (props: Props) => {
       <div className='px-6 flex'>
         <button
           className='w-full h-8 mx:auto rounded bg-orange-400 disabled:bg-orange-800 text-lg text-black disabled:cursor-not-allowed'
-          type='submit'
           disabled={!validateMeasurement(values)}
-          onSubmit={() => {
-            if (onSubmit) {
+          onClick={() => {
+            if (validateMeasurement(values)) {
               onSubmit(parseMeasurementInput(values));
             }
           }}
@@ -93,7 +99,7 @@ const MeasurementInput: React.FC<Props> = (props: Props) => {
           {`Take reading`}
         </button>
       </div>
-    </>
+    </div>
   );
 };
 
