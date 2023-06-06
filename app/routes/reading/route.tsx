@@ -5,7 +5,14 @@ import { useLoaderData } from '@remix-run/react';
 import React from 'react';
 import ReadingControl from './ReadingControl';
 import { parseMeasurement, parseMeasurementInput } from '~/utils/measurements';
+import type { Measurement, Reading } from '~/utils/measurements';
 import { db } from '~/lib/db.server';
+import PastReadings from '~/components/PastReadings';
+
+interface LoaderData {
+  measurement: Measurement | null;
+  readings?: Reading[];
+}
 
 export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url);
@@ -13,15 +20,22 @@ export const loader = async ({ request }: LoaderArgs) => {
   const diastolic = parseMeasurement(url.searchParams.get('diastolic'));
   const pulse = parseMeasurement(url.searchParams.get('pulse'));
   if (systolic === null || diastolic === null || pulse === null) {
-    return json({ measurement: null });
+    const data: LoaderData = { measurement: null };
+    return json(data);
   } else {
-    return json({
+    const readings = await db.measurement.findMany();
+    const data: LoaderData = {
       measurement: {
         systolic,
         diastolic,
         pulse,
       },
-    });
+      readings: readings.map((reading) => ({
+        ...reading,
+        time: reading.created.toLocaleString(),
+      })),
+    };
+    return json(data);
   }
 };
 
@@ -63,6 +77,8 @@ const ReadingRoute: React.FC = () => {
       <ReadingControl
         initialReading={data.measurement ? { ...data.measurement } : undefined}
       />
+      <hr className='mt-3 mb-1 border-orange-700' />
+      {data.readings ? <PastReadings readings={data.readings} /> : null}
     </>
   );
 };

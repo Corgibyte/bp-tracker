@@ -125,7 +125,11 @@ const ReadingControl: React.FC<Props> = (props) => {
           onClick={onSaveReading}
           className='flex ml-auto bg-emerald-700 hover:bg-emerald-600 rounded my-1 mr-1 px-1 text-lg items-center'
         >
-          <IoSave />
+          {fetcher.state !== 'idle' ? (
+            <div className='animate-spin h-5 w-5 rounded-full border-2 border-white border-t-transparent' />
+          ) : (
+            <IoSave />
+          )}
           <p className='pl-1.5'>Save Reading</p>
         </button>
       </div>

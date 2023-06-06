@@ -4,6 +4,10 @@ export type Measurement = {
   pulse: number;
 };
 
+export type Reading = Measurement & {
+  time: string;
+};
+
 export function parseMeasurement(measurement: string | null) {
   if (measurement === null) {
     return null;
