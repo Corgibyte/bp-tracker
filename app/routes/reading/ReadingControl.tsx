@@ -1,4 +1,4 @@
-import { useSubmit } from '@remix-run/react';
+import { useFetcher, useSubmit } from '@remix-run/react';
 import React from 'react';
 import MeasurementInput from '~/components/MeasurementInput';
 import MeasurementTag from '~/components/MeasurementTag';
@@ -53,9 +53,19 @@ const ReadingControl: React.FC<Props> = (props) => {
   };
 
   //* Handler for save action
+  const fetcher = useFetcher();
+
   const onSaveReading = () => {
-    //TODO
-    console.log('TODO: Save reading');
+    if (measurement) {
+      fetcher.submit(
+        {
+          systolic: measurement.systolic.toString(),
+          diastolic: measurement.diastolic.toString(),
+          pulse: measurement.pulse.toString(),
+        },
+        { method: 'POST', action: '/reading' }
+      );
+    }
   };
 
   return (

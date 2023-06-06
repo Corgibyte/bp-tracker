@@ -1,9 +1,11 @@
-import { json } from '@remix-run/node';
+import type { ActionArgs } from '@remix-run/node';
+import { json, Response } from '@remix-run/node';
 import type { LoaderArgs } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import React from 'react';
 import ReadingControl from './ReadingControl';
-import { parseMeasurement } from '~/utils/measurements';
+import { parseMeasurement, parseMeasurementInput } from '~/utils/measurements';
+import { db } from '~/lib/db.server';
 
 export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url);
@@ -23,9 +25,35 @@ export const loader = async ({ request }: LoaderArgs) => {
   }
 };
 
+export const action = async ({ params, request }: ActionArgs) => {
+  const formData = await request.formData();
+  const systolic = formData.get('systolic');
+  const diastolic = formData.get('diastolic');
+  const pulse = formData.get('pulse');
+  if (systolic === null || diastolic === null || pulse === null) {
+    return json(null);
+  }
+  try {
+    const measurement = parseMeasurementInput({
+      systolic: systolic.toString(),
+      diastolic: diastolic.toString(),
+      pulse: pulse.toString(),
+    });
+    await db.measurement.create({
+      data: {
+        systolic: measurement.systolic,
+        diastolic: measurement.diastolic,
+        pulse: measurement.pulse,
+      },
+    });
+    return json(true);
+  } catch {
+    throw new Response(null, { status: 400, statusText: 'Bad Request' });
+  }
+};
+
 const ReadingRoute: React.FC = () => {
   const data = useLoaderData<typeof loader>();
-  const time = new Date();
 
   return (
     <>
@@ -33,9 +61,7 @@ const ReadingRoute: React.FC = () => {
         New Reading
       </h2>
       <ReadingControl
-        initialReading={
-          data.measurement ? { ...data.measurement, time } : undefined
-        }
+        initialReading={data.measurement ? { ...data.measurement } : undefined}
       />
     </>
   );

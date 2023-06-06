@@ -2,7 +2,6 @@ export type Measurement = {
   systolic: number;
   diastolic: number;
   pulse: number;
-  time: Date;
 };
 
 export function parseMeasurement(measurement: string | null) {
@@ -39,6 +38,5 @@ export function parseMeasurementInput(input: MeasurementInput): Measurement {
     systolic,
     diastolic,
     pulse,
-    time: new Date(),
   };
 }
