@@ -2,10 +2,10 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "build": "remix build",
+    "build": "prisma generate && remix build",
     "dev": "remix dev",
     "typecheck": "tsc",
-    "generate": "npx prisma generate",
+    "generate": "prisma generate",
     "lint:fix": "eslint --config .eslintrc.js --fix --cache --ext .ts,.tsx app"
   },
   "prisma": {
