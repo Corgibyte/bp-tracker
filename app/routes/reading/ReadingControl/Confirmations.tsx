@@ -59,8 +59,6 @@ const Confirmations: React.FC<Props> = (props) => {
         </>
       ) : (
         <>
-          <h2 className='text-center'>CONFIRMATIONS</h2>
-          <hr className='border-zinc-500' />
           {confirmations.map((confirmation, idx) => (
             <React.Fragment key={idx}>
               <ConfirmationLine
