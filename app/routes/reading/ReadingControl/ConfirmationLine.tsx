@@ -1,3 +1,4 @@
+import { a, useSpring } from '@react-spring/web';
 import React from 'react';
 import { IoMdArrowRoundUp } from 'react-icons/io';
 import { IoCloseSharp } from 'react-icons/io5';
@@ -13,8 +14,17 @@ interface Props {
 const ConfirmationLine: React.FC<Props> = (props) => {
   const { measurement, onPromote, onClose } = props;
 
+  const { opacity } = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+    config: { mass: 5, friction: 40 },
+  });
+
   return (
-    <div className='flex w-full justify-between px-2 bg-neutral-700 items-center shadow-inner'>
+    <a.div
+      style={{ opacity }}
+      className='flex w-full justify-between px-2 bg-neutral-700 items-center shadow-inner'
+    >
       <MeasurementTag measurement={measurement} />
       <div>
         <button
@@ -30,7 +40,7 @@ const ConfirmationLine: React.FC<Props> = (props) => {
           <IoCloseSharp />
         </button>
       </div>
-    </div>
+    </a.div>
   );
 };
 

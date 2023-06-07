@@ -18,6 +18,8 @@ const onChangeValidation = (stringValue: string) => {
 
 interface Props {
   onSubmit: (newMeasurement: Measurement) => void;
+  buttonText: string;
+  focusRef?: React.MutableRefObject<HTMLInputElement | null>;
 }
 
 interface Values {
@@ -27,7 +29,7 @@ interface Values {
 }
 
 const MeasurementInput: React.FC<Props> = (props: Props) => {
-  const { onSubmit } = props;
+  const { onSubmit, buttonText, focusRef } = props;
 
   //* Always control value for ensuring only appropriate digits used
   const [values, setValues] = React.useState<Values>({
@@ -36,11 +38,22 @@ const MeasurementInput: React.FC<Props> = (props: Props) => {
     pulse: '',
   });
 
+  const submitHandler = () => {
+    if (validateMeasurement(values)) {
+      setValues({
+        systolic: '',
+        diastolic: '',
+        pulse: '',
+      });
+      onSubmit(parseMeasurementInput(values));
+    }
+  };
+
   return (
     <div
       onKeyDown={(e) => {
         if (e.key === 'Enter' && validateMeasurement(values)) {
-          onSubmit(parseMeasurementInput(values));
+          submitHandler();
         }
       }}
     >
@@ -57,6 +70,7 @@ const MeasurementInput: React.FC<Props> = (props: Props) => {
           }}
           className={inputStyles}
           required
+          ref={focusRef}
           autoFocus
         />
         <input
@@ -90,13 +104,9 @@ const MeasurementInput: React.FC<Props> = (props: Props) => {
         <button
           className='w-full h-8 mx:auto rounded bg-orange-400 disabled:bg-orange-800 text-lg text-black disabled:cursor-not-allowed'
           disabled={!validateMeasurement(values)}
-          onClick={() => {
-            if (validateMeasurement(values)) {
-              onSubmit(parseMeasurementInput(values));
-            }
-          }}
+          onClick={submitHandler}
         >
-          {`Take reading`}
+          {buttonText}
         </button>
       </div>
     </div>

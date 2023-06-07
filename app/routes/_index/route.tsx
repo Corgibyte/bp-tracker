@@ -28,7 +28,10 @@ export default function Index() {
   return (
     <>
       <form action='/reading' method='GET'>
-        <MeasurementInput onSubmit={onNewMeasurement} />
+        <MeasurementInput
+          onSubmit={onNewMeasurement}
+          buttonText='Start new reading...'
+        />
       </form>
     </>
   );

@@ -12,7 +12,7 @@ const PastReadings: React.FC<Props> = (props) => {
   return (
     <div>
       <h1 className='text-center font-semibold text-orange-500'>
-        PREVIOUS READINGS
+        RECENT READINGS
       </h1>
       {readings.map((reading, idx) => (
         <div

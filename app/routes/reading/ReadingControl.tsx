@@ -3,8 +3,8 @@ import React from 'react';
 import MeasurementInput from '~/components/MeasurementInput';
 import MeasurementTag from '~/components/MeasurementTag';
 import type { Measurement } from '~/utils/measurements';
-import ConfirmationLine from './ReadingControl/ConfirmationLine';
 import { IoSave } from 'react-icons/io5';
+import Confirmations from './ReadingControl/Confirmations';
 
 interface Props {
   initialReading?: Measurement;
@@ -17,11 +17,9 @@ const ReadingControl: React.FC<Props> = (props) => {
     initialReading
   );
   const [confirmations, setConfirmations] = React.useState<Measurement[]>([]);
-  const [isAddingConfirm, setIsAddingConfirm] = React.useState(false);
 
   const onNewConfirmation = (newMeasurement: Measurement) => {
     setConfirmations([...confirmations, newMeasurement]);
-    setIsAddingConfirm(false);
   };
 
   //* If there is no measurement then we submit GET form
@@ -71,66 +69,42 @@ const ReadingControl: React.FC<Props> = (props) => {
   return (
     <>
       {measurement ? (
-        <div className=''>
+        <>
           <div className='text-lg flex justify-center pt-2 saturate-200'>
             <div className='bg-slate-600 p-2 rounded drop-shadow-md'>
               <MeasurementTag measurement={measurement} />
             </div>
           </div>
-          <div className='mt-4 bg-slate-900 '>
-            {confirmations.length === 0 ? (
-              <>
-                <p className='text-rose-500 font-semibold py-2 saturate-150 text-center'>
-                  NO CONFIRMATIONS
-                </p>
-              </>
-            ) : (
-              <>
-                <h2 className='text-center'>CONFIRMATIONS</h2>
-                <hr className='border-zinc-500' />
-                {confirmations.map((confirmation, idx) => (
-                  <React.Fragment key={idx}>
-                    <ConfirmationLine
-                      measurement={confirmation}
-                      onClose={() => onCloseConfirmation(idx)}
-                      onPromote={() => onPromoteConfirmation(idx)}
-                    />
-                    <hr className='border-zinc-500' />
-                  </React.Fragment>
-                ))}
-              </>
-            )}
-            <button
-              className='text-slate-100 p-1 bg-rose-600 hover:bg-rose-700 rounded m-1'
-              onClick={() => setIsAddingConfirm(!isAddingConfirm)}
-            >
-              {isAddingConfirm ? 'Cancel' : 'Add Confirmation'}
-            </button>
-            {isAddingConfirm ? (
-              <div className='pb-1'>
-                <MeasurementInput onSubmit={onNewConfirmation} />
-              </div>
-            ) : null}
-          </div>
-        </div>
+          <Confirmations
+            confirmations={confirmations}
+            onAddConfirmation={onNewConfirmation}
+            onCloseConfirmation={onCloseConfirmation}
+            onPromoteConfirmation={onPromoteConfirmation}
+          />
+        </>
       ) : (
         <>
           <form method='get'>
-            <MeasurementInput onSubmit={onNewMeasurement} />
+            <MeasurementInput
+              onSubmit={onNewMeasurement}
+              buttonText='Start new reading...'
+            />
           </form>
         </>
       )}
       <div className='flex w-full'>
         <button
           onClick={onSaveReading}
-          className='flex ml-auto bg-emerald-700 hover:bg-emerald-600 rounded my-1 mr-1 px-1 text-lg items-center'
+          className='w-full flex bg-emerald-700 hover:bg-emerald-600 rounded py-1 my-1 mr-1 mx-1 text-xl justify-center items-center'
         >
-          {fetcher.state !== 'idle' ? (
-            <div className='animate-spin h-5 w-5 rounded-full border-2 border-white border-t-transparent' />
-          ) : (
-            <IoSave />
-          )}
-          <p className='pl-1.5'>Save Reading</p>
+          <span className='mr-2'>
+            {fetcher.state !== 'idle' ? (
+              <div className='animate-spin h-5 w-5 rounded-full border-2 border-white border-t-transparent' />
+            ) : (
+              <IoSave />
+            )}
+          </span>
+          Save Reading
         </button>
       </div>
     </>

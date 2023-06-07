@@ -7,7 +7,6 @@ import ReadingControl from './ReadingControl';
 import { parseMeasurement, parseMeasurementInput } from '~/utils/measurements';
 import type { Measurement, Reading } from '~/utils/measurements';
 import { db } from '~/lib/db.server';
-import PastReadings from '~/components/PastReadings';
 
 interface LoaderData {
   measurement: Measurement | null;
@@ -77,8 +76,6 @@ const ReadingRoute: React.FC = () => {
       <ReadingControl
         initialReading={data.measurement ? { ...data.measurement } : undefined}
       />
-      <hr className='mt-3 mb-1 border-orange-700' />
-      {data.readings ? <PastReadings readings={data.readings} /> : null}
     </>
   );
 };
