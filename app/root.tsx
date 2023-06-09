@@ -10,9 +10,11 @@ import {
   ScrollRestoration,
 } from '@remix-run/react';
 import tailwindStyles from './styles/tailwind.css';
+import sharedStyles from './styles/shared.css';
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
+  { rel: 'stylesheet', href: sharedStyles },
   { rel: 'stylesheet', href: tailwindStyles },
 ];
 
