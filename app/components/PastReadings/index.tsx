@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Reading } from '~/utils/measurements';
+import type { Reading } from '~/lib/measurements';
 import MeasurementTag from '../MeasurementTag';
 
 interface Props {

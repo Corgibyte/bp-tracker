@@ -3,7 +3,7 @@ import React from 'react';
 import { IoMdArrowRoundUp } from 'react-icons/io';
 import { IoCloseSharp } from 'react-icons/io5';
 import MeasurementTag from '~/components/MeasurementTag';
-import type { Measurement } from '~/utils/measurements';
+import type { Measurement } from '~/lib/measurements';
 
 interface Props {
   measurement: Measurement;

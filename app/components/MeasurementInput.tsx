@@ -1,9 +1,6 @@
 import React from 'react';
-import {
-  parseMeasurementInput,
-  validateMeasurement,
-} from '~/utils/measurements';
-import type { Measurement } from '~/utils/measurements';
+import { parseMeasurementInput, validateMeasurement } from '~/lib/measurements';
+import type { Measurement } from '~/lib/measurements';
 
 const inputStyles =
   'w-10/12 shadow-inner h-12 px-3 bg-sky-700 focus:ring focus:ring-orange-600 focus:outline-0 focus:border-0 rounded-lg text-center';

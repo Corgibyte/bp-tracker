@@ -2,7 +2,7 @@ import { useFetcher, useSubmit } from '@remix-run/react';
 import React from 'react';
 import MeasurementInput from '~/components/MeasurementInput';
 import MeasurementTag from '~/components/MeasurementTag';
-import type { Measurement } from '~/utils/measurements';
+import type { Measurement } from '~/lib/measurements';
 import { IoSave } from 'react-icons/io5';
 import Confirmations from './ReadingControl/Confirmations';
 import ConfirmationNotices from './ReadingControl/ConfirmationNotices';

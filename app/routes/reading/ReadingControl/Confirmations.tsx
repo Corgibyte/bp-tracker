@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Measurement } from '~/utils/measurements';
+import type { Measurement } from '~/lib/measurements';
 import ConfirmationLine from './ConfirmationLine';
 import MeasurementInput from '~/components/MeasurementInput';
 import { a, useSpring } from '@react-spring/web';

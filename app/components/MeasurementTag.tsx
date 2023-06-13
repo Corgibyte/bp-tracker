@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Measurement } from '~/utils/measurements';
+import type { Measurement } from '~/lib/measurements';
 
 interface Props {
   measurement: Measurement;

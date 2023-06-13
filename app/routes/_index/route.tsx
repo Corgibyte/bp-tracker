@@ -1,7 +1,7 @@
 import type { V2_MetaFunction } from '@remix-run/node';
 import { useSubmit } from '@remix-run/react';
 import MeasurementInput from '~/components/MeasurementInput';
-import type { Measurement } from '~/utils/measurements';
+import type { Measurement } from '~/lib/measurements';
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: 'BP Tracker' }];

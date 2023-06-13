@@ -4,8 +4,8 @@ import type { LoaderArgs } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import React from 'react';
 import ReadingControl from './ReadingControl';
-import { parseMeasurement, parseMeasurementInput } from '~/utils/measurements';
-import type { Measurement, Reading } from '~/utils/measurements';
+import { parseMeasurement, parseMeasurementInput } from '~/lib/measurements';
+import type { Measurement, Reading } from '~/lib/measurements';
 import { db } from '~/lib/db.server';
 
 interface LoaderData {
