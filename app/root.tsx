@@ -28,7 +28,7 @@ export default function App() {
         <Links />
       </head>
       <body className='bg-slate-800 text-white'>
-        <div className='ml-1 md:ml-2 lg:ml-3 w-96 bg-slate-700 '>
+        <div className='ml-1 md:ml-2 lg:ml-3 w-96 bg-slate-700 pb-2'>
           <div className='bg-slate-900 py-2 drop-shadow-lg saturate-150'>
             <h1 className='text-2xl font-semibold text-orange-500 ml-2'>
               <Link to='/' prefetch='intent'>

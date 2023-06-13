@@ -4,6 +4,9 @@ import ConfirmationLine from './ConfirmationLine';
 import MeasurementInput from '~/components/MeasurementInput';
 import { a, useSpring } from '@react-spring/web';
 import useMeasure from 'react-use-measure';
+import { IoInformationCircleOutline } from 'react-icons/io5';
+import { Tooltip } from 'react-tooltip';
+import { confirmationTooltipContent } from '~/lib/content';
 
 interface Props {
   confirmations: Measurement[];
@@ -22,6 +25,7 @@ const Confirmations: React.FC<Props> = (props) => {
 
   const [isAdding, setIsAdding] = React.useState(false);
 
+  //* Spring for animating collapse
   const [ref, { height: viewHeight }] = useMeasure();
 
   const { opacity, height } = useSpring({
@@ -48,8 +52,18 @@ const Confirmations: React.FC<Props> = (props) => {
   return (
     <div className='mt-4 bg-zinc-800 m-1 p-1 rounded-sm'>
       <h2 className='font-semibold text-xl text-center text-neutral-200'>
-        CONFIRMATIONS
+        <span className='inline-flex items-center'>
+          CONFIRMATIONS
+          <span
+            className='inline-flex ml-1 pt-px'
+            data-tooltip-content={confirmationTooltipContent}
+            data-tooltip-id='confirmation-tooltip'
+          >
+            <IoInformationCircleOutline />
+          </span>
+        </span>
       </h2>
+      <Tooltip id='confirmation-tooltip' className='tooltip' />
       <hr className='border-neutral-600' />
       {confirmations.length === 0 ? (
         <>
@@ -84,14 +98,16 @@ const Confirmations: React.FC<Props> = (props) => {
         className={`${isAdding ? 'pb-2' : ''} drop-shadow-lg bg-zinc-600`}
         ref={ref}
       >
-        <MeasurementInput
-          onSubmit={(newConfirmation: Measurement) => {
-            onAddConfirmation(newConfirmation);
-            setIsAdding(false);
-          }}
-          buttonText='Add confirmation'
-          focusRef={focusRef}
-        />
+        {isAdding ? (
+          <MeasurementInput
+            onSubmit={(newConfirmation: Measurement) => {
+              onAddConfirmation(newConfirmation);
+              setIsAdding(false);
+            }}
+            buttonText='Add confirmation'
+            focusRef={focusRef}
+          />
+        ) : null}
       </a.div>
     </div>
   );

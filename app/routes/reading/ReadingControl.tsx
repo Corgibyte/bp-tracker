@@ -5,6 +5,9 @@ import MeasurementTag from '~/components/MeasurementTag';
 import type { Measurement } from '~/utils/measurements';
 import { IoSave } from 'react-icons/io5';
 import Confirmations from './ReadingControl/Confirmations';
+import ConfirmationNotices from './ReadingControl/ConfirmationNotices';
+import type { Notice } from './ReadingControl/ConfirmationNotices';
+import { confirmationTooltipContent } from '~/lib/content';
 
 interface Props {
   initialReading?: Measurement;
@@ -66,6 +69,25 @@ const ReadingControl: React.FC<Props> = (props) => {
     }
   };
 
+  //* Notices that are communicated to the user
+  const [notices, setNotices] = React.useState<Notice[]>([]);
+
+  const updateNotices = () => {
+    const newNotices: Notice[] = [];
+    if (confirmations.length === 0) {
+      newNotices.push({
+        title: 'No confirmations',
+        tooltip: confirmationTooltipContent,
+      });
+    }
+    //*TODO: add validation
+    setNotices([...newNotices]);
+  };
+
+  React.useEffect(() => {
+    updateNotices();
+  }, [confirmations, measurement]);
+
   return (
     <>
       {measurement ? (
@@ -92,6 +114,7 @@ const ReadingControl: React.FC<Props> = (props) => {
           </form>
         </>
       )}
+      <ConfirmationNotices notices={notices} />
       <div className='flex w-full'>
         <button
           onClick={onSaveReading}
