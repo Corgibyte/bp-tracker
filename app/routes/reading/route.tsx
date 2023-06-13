@@ -1,4 +1,4 @@
-import type { ActionArgs } from '@remix-run/node';
+import { ActionArgs, redirect } from '@remix-run/node';
 import { json, Response } from '@remix-run/node';
 import type { LoaderArgs } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
@@ -59,7 +59,7 @@ export const action = async ({ params, request }: ActionArgs) => {
         pulse: measurement.pulse,
       },
     });
-    return json(true);
+    return redirect('/');
   } catch {
     throw new Response(null, { status: 400, statusText: 'Bad Request' });
   }

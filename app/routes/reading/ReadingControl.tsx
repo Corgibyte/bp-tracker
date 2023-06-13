@@ -54,10 +54,10 @@ const ReadingControl: React.FC<Props> = (props) => {
   };
 
   //* Handler for save action
-  const fetcher = useFetcher();
+  const fetcher = useFetcher<boolean>();
 
   const onSaveReading = () => {
-    if (measurement) {
+    if (measurement && fetcher.state === 'idle') {
       fetcher.submit(
         {
           systolic: measurement.systolic.toString(),
