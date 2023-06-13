@@ -3,5 +3,6 @@ module.exports = {
   extends: ['@remix-run/eslint-config', '@remix-run/eslint-config/node'],
   rules: {
     'react-hooks/exhaustive-deps': 0,
+    '@typescript-eslint/consistent-type-imports': 0,
   },
 };
