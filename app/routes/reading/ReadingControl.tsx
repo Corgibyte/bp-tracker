@@ -2,12 +2,11 @@ import { useFetcher, useSubmit } from '@remix-run/react';
 import React from 'react';
 import MeasurementInput from '~/components/MeasurementInput';
 import MeasurementTag from '~/components/MeasurementTag';
-import type { Measurement } from '~/lib/measurements';
+import { Measurement, doComparison } from '~/lib/measurements';
 import { IoSave } from 'react-icons/io5';
 import Confirmations from './ReadingControl/Confirmations';
 import ConfirmationNotices from './ReadingControl/ConfirmationNotices';
-import type { Notice } from './ReadingControl/ConfirmationNotices';
-import { confirmationTooltipContent } from '~/lib/content';
+import { Notice } from './ReadingControl/ConfirmationNotices';
 
 interface Props {
   initialReading?: Measurement;
@@ -73,15 +72,10 @@ const ReadingControl: React.FC<Props> = (props) => {
   const [notices, setNotices] = React.useState<Notice[]>([]);
 
   const updateNotices = () => {
-    const newNotices: Notice[] = [];
-    if (confirmations.length === 0) {
-      newNotices.push({
-        title: 'No confirmations',
-        tooltip: confirmationTooltipContent,
-      });
+    if (measurement) {
+      const newNotices: Notice[] = doComparison(measurement, confirmations);
+      setNotices(newNotices);
     }
-    //*TODO: add validation
-    setNotices([...newNotices]);
   };
 
   React.useEffect(() => {
